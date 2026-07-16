@@ -1,0 +1,99 @@
+[
+    {
+        "name": "Python",
+        "category": "Programming Language",
+        "aliases": [
+            "python",
+            "python3",
+            "py"
+        ]
+    },
+    {
+        "name": "Java",
+        "category": "Programming Language",
+        "aliases": [
+            "java"
+        ]
+    },
+    {
+        "name": "C++",
+        "category": "Programming Language",
+        "aliases": [
+            "cpp",
+            "c++"
+        ]
+    },
+    {
+        "name": "Docker",
+        "category": "DevOps",
+        "aliases": [
+            "docker"
+        ]
+    },
+    {
+        "name": "Git",
+        "category": "Version Control",
+        "aliases": [
+            "git",
+            "github"
+        ]
+    },
+    {
+        "name": "FastAPI",
+        "category": "Backend",
+        "aliases": [
+            "fastapi",
+            "fast api"
+        ]
+    },
+    {
+        "name": "SQL",
+        "category": "Database",
+        "aliases": [
+            "sql",
+            "mysql",
+            "postgresql"
+        ]
+    },
+    {
+        "name": "Machine Learning",
+        "category": "AI",
+        "aliases": [
+            "machine learning",
+            "ml"
+        ]
+    },
+    {
+        "name": "Deep Learning",
+        "category": "AI",
+        "aliases": [
+            "deep learning",
+            "dl"
+        ]
+    },
+    {
+        "name": "PyTorch",
+        "category": "AI Framework",
+        "aliases": [
+            "pytorch",
+            "torch"
+        ]
+    },
+    {
+        "name": "TensorFlow",
+        "category": "AI Framework",
+        "aliases": [
+            "tensorflow",
+            "tensor flow",
+            "tf"
+        ]
+    },
+    {
+        "name": "AWS",
+        "category": "Cloud",
+        "aliases": [
+            "aws",
+            "amazon web services"
+        ]
+    }
+]
