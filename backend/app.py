@@ -126,17 +126,21 @@ async def match_resume(
 @app.post("/rewrite")
 async def rewrite(
     resume: UploadFile = File(...),
-    job_description: str = Form(...)
+    job_description: str = Form(...),
+    ats_json: str = Form(...)
 ):
     try:
+        import json
+        from models.ats_model import ATSAnalysis
+        
         save_path = os.path.join(RESUME_DIR, resume.filename)
         with open(save_path, "wb") as buffer:
             shutil.copyfileobj(resume.file, buffer)
 
-        resume_text, resume_obj, job_obj, ats = analyze_resume_pipeline(
-            save_path,
-            job_description
-        )
+        # Extract text directly, skipping the heavy AI analysis pipeline!
+        resume_text = extract_text_from_pdf(save_path)
+        
+        ats = ATSAnalysis(**json.loads(ats_json))
 
         rewritten = rewrite_resume(
             resume_text,

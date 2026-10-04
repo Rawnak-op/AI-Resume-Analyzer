@@ -121,8 +121,8 @@ function UploadCard() {
         const formData = new FormData();
 
         formData.append("resume", resume);
-
         formData.append("job_description", jobDescription);
+        formData.append("ats_json", JSON.stringify(analysis));
 
         try {
 
