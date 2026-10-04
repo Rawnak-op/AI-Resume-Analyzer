@@ -198,5 +198,9 @@ def rewrite_resume(
             "weaknesses": "\n".join(ats_analysis.weaknesses)
         }
     )
-
-    return response.content
+    
+    content = response.content.strip()
+    if not content:
+        content = "⚠️ **AI Generation Failed or Blocked.**\nThe model returned an empty response. This usually happens if the AI's safety filters were triggered by something in the job description, or if the model failed to identify any sections to rewrite based on the strict instructions."
+        
+    return content
