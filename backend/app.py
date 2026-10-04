@@ -1,4 +1,5 @@
 import shutil
+import os
 
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,6 +16,7 @@ from ats.analyzer import ATSAnalyzer
 
 from services.resume_rewrite import rewrite_resume
 
+os.makedirs("../resumes", exist_ok=True)
 
 app = FastAPI()
 
