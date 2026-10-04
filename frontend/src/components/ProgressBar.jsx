@@ -1,36 +1,24 @@
 import { motion } from "framer-motion";
 
 function ProgressBar({
-
     title,
-
     value,
-
-    color = "bg-blue-500"
-
+    color = "bg-blue-500",
+    max = 20
 }) {
-
     const percentage = Math.min(
-        (value / 20) * 100,
+        (value / max) * 100,
         100
     );
 
     return (
-
         <div className="mb-6">
-
             <div className="flex justify-between mb-2">
-
                 <span className="font-medium">
-
                     {title}
-
                 </span>
-
                 <span className="text-slate-300">
-
-                    {value.toFixed(2)}
-
+                    {value.toFixed(2)} / {max}
                 </span>
 
             </div>

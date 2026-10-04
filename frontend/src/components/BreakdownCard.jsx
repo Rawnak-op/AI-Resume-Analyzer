@@ -53,73 +53,52 @@ function BreakdownCard({ result }) {
             </div>
 
             <ProgressBar
-
                 title="Semantic Match"
-
                 value={b.semantic}
-
                 color="bg-blue-500"
-
+                max={20}
             />
 
             <ProgressBar
-
                 title="Skills"
-
                 value={b.skills}
-
                 color="bg-green-500"
-
+                max={25}
             />
 
             <ProgressBar
-
                 title="Experience"
-
                 value={b.experience}
-
                 color="bg-yellow-500"
-
+                max={15}
             />
 
             <ProgressBar
-
                 title="Projects"
-
                 value={b.projects}
-
                 color="bg-pink-500"
-
+                max={10}
             />
 
             <ProgressBar
-
                 title="Keywords"
-
                 value={b.keywords}
-
                 color="bg-purple-500"
-
+                max={10}
             />
 
             <ProgressBar
-
                 title="Resume Sections"
-
                 value={b.sections}
-
                 color="bg-cyan-500"
-
+                max={10}
             />
 
             <ProgressBar
-
                 title="Resume Quality"
-
                 value={b.quality}
-
                 color="bg-orange-500"
-
+                max={10}
             />
 
         </motion.div>
