@@ -1,5 +1,6 @@
 import shutil
 import os
+import tempfile
 
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,7 +17,8 @@ from ats.analyzer import ATSAnalyzer
 
 from services.resume_rewrite import rewrite_resume
 
-os.makedirs("../resumes", exist_ok=True)
+RESUME_DIR = os.path.join(tempfile.gettempdir(), "resumes")
+os.makedirs(RESUME_DIR, exist_ok=True)
 
 app = FastAPI()
 
@@ -104,7 +106,7 @@ async def match_resume(
 
 ):
 
-    save_path = f"../resumes/{resume.filename}"
+    save_path = os.path.join(RESUME_DIR, resume.filename)
 
     with open(save_path, "wb") as buffer:
         shutil.copyfileobj(
@@ -133,7 +135,7 @@ async def rewrite(
 
 ):
 
-    save_path = f"../resumes/{resume.filename}"
+    save_path = os.path.join(RESUME_DIR, resume.filename)
 
     with open(save_path, "wb") as buffer:
         shutil.copyfileobj(
