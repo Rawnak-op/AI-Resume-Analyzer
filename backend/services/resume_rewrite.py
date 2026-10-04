@@ -199,8 +199,20 @@ def rewrite_resume(
         }
     )
     
-    content = response.content.strip()
+    raw_content = response.content
+    if isinstance(raw_content, list):
+        # Gemini sometimes returns a list of content blocks
+        text_parts = []
+        for block in raw_content:
+            if isinstance(block, dict) and "text" in block:
+                text_parts.append(block["text"])
+            else:
+                text_parts.append(str(block))
+        content = "\n".join(text_parts).strip()
+    else:
+        content = str(raw_content).strip()
+        
     if not content:
-        content = "⚠️ **AI Generation Failed or Blocked.**\nThe model returned an empty response. This usually happens if the AI's safety filters were triggered by something in the job description, or if the model failed to identify any sections to rewrite based on the strict instructions."
+        content = "⚠️ **AI Generation Failed or Blocked.**\nThe model returned an empty response."
         
     return content
