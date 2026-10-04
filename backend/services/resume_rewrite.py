@@ -45,18 +45,18 @@ Weaknesses:
 YOUR TASK
 ==================================================
 
-You must output the FULL, COMPLETE resume in beautiful Markdown format. 
+You must output the ENTIRE, FULL resume from top to bottom in beautiful Markdown format. Do not truncate or omit anything.
 
 You must REWRITE and OPTIMIZE these specific sections based on the ATS Analysis:
 - Professional Summary
 - Project Descriptions
 - Experience Descriptions (if any)
 
-You must KEEP the following sections exactly as they were in the original resume (do not remove or change them):
+CRITICAL: You must COPY AND PASTE the following sections EXACTLY as they appear in the original resume. Do NOT omit them!
 - Name and Contact Information (Email, Phone, GitHub, Address)
-- Education (including CGPA)
+- Education (including CGPA and dates)
 - Technical Skills
-- Certifications / Interests
+- Certifications / Interests / Hobbies
 
 ==================================================
 RULES
