@@ -79,7 +79,11 @@ function UploadCard() {
             );
 
             setAnalysis(response.data);
-
+            
+            // Auto-scroll to ATS results
+            setTimeout(() => {
+                document.getElementById("ats-section")?.scrollIntoView({ behavior: "smooth" });
+            }, 100);
         }
 
         catch (err) {
@@ -331,7 +335,7 @@ function UploadCard() {
 
                 analysis &&
 
-                <>
+                <div id="ats-section">
 
                     <ATSCard
 
@@ -357,7 +361,7 @@ function UploadCard() {
 
                     />
 
-                </>
+                </div>
 
             }
 
