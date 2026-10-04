@@ -45,19 +45,26 @@ Weaknesses:
 YOUR TASK
 ==================================================
 
-Rewrite ONLY these sections:
+You must output the FULL, COMPLETE resume in beautiful Markdown format. 
 
+You must REWRITE and OPTIMIZE these specific sections based on the ATS Analysis:
 - Professional Summary
 - Project Descriptions
-- Experience Descriptions
+- Experience Descriptions (if any)
 
-Do NOT rewrite Education, Skills, Certifications or Personal Information.
+You must KEEP the following sections exactly as they were in the original resume (do not remove or change them):
+- Name and Contact Information (Email, Phone, GitHub, Address)
+- Education (including CGPA)
+- Technical Skills
+- Certifications / Interests
 
 ==================================================
 RULES
 ==================================================
 
-- Never invent projects.
+- Output a fully formatted Markdown document. Use `#` for the name, `##` for section headers, and `-` for bullet points.
+- Bold key technologies or metrics inside the bullet points.
+- Never invent projects or work experience.
 - Never invent work experience.
 - Never invent achievements.
 - Never invent technologies.
