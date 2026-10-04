@@ -193,27 +193,10 @@ def rewrite_resume(
             "job": job_description,
 
             "score": ats_analysis.total_score,
-
-            "missing_skills": ", ".join(
-
-                ats_analysis.missing_required
-
-            ),
-
-            "strengths": "\n".join(
-
-                ats_analysis.strengths
-
-            ),
-
-            "weaknesses": "\n".join(
-
-                ats_analysis.weaknesses
-
-            )
-
+            "missing_skills": ", ".join(ats_analysis.missing_required),
+            "strengths": "\n".join(ats_analysis.strengths),
+            "weaknesses": "\n".join(ats_analysis.weaknesses)
         }
-
     )
 
     return response.content

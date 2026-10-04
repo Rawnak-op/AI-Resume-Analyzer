@@ -125,42 +125,27 @@ function UploadCard() {
         formData.append("ats_json", JSON.stringify(analysis));
 
         try {
-
             setRewriteLoading(true);
-
             const response = await API.post(
-
                 "/rewrite",
-
                 formData,
-
                 {
-
                     headers: {
-
-                        "Content-Type":
-                            "multipart/form-data"
-
+                        "Content-Type": "multipart/form-data"
                     }
-
                 }
-
             );
-
-            setRewrite(
-
-                response.data.rewritten_resume
-
-            );
-
+            setRewrite(response.data.rewritten_resume);
+            
+            // Auto-scroll to the rewrite section
+            setTimeout(() => {
+                document.getElementById("rewrite-section")?.scrollIntoView({ behavior: "smooth" });
+            }, 100);
         }
-
         catch (err) {
-
             console.error(err);
-
-            alert("Rewrite failed.");
-
+            const errorMsg = err.response?.data?.error || err.message;
+            alert("Rewrite failed: " + errorMsg);
         }
 
         finally {
@@ -376,17 +361,11 @@ function UploadCard() {
 
             }
 
-            {
-
-                rewrite &&
-
-                <RewriteCard
-
-                    rewrite={rewrite}
-
-                />
-
-            }
+            {rewrite && (
+                <div id="rewrite-section">
+                    <RewriteCard rewrite={rewrite} />
+                </div>
+            )}
 
         </div>
 
