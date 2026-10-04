@@ -97,29 +97,26 @@ def analyze_resume_pipeline(
 # ATS Analysis
 # ==========================================================
 
+from fastapi.responses import JSONResponse
+
 @app.post("/match")
 async def match_resume(
-
     resume: UploadFile = File(...),
-
     job_description: str = Form(...)
-
 ):
+    try:
+        save_path = os.path.join(RESUME_DIR, resume.filename)
+        with open(save_path, "wb") as buffer:
+            shutil.copyfileobj(resume.file, buffer)
 
-    save_path = os.path.join(RESUME_DIR, resume.filename)
-
-    with open(save_path, "wb") as buffer:
-        shutil.copyfileobj(
-            resume.file,
-            buffer
+        resume_text, resume_obj, job_obj, ats = analyze_resume_pipeline(
+            save_path,
+            job_description
         )
-
-    resume_text, resume_obj, job_obj, ats = analyze_resume_pipeline(
-        save_path,
-        job_description
-    )
-
-    return ats.model_dump()
+        return ats.model_dump()
+    except Exception as e:
+        import traceback
+        return JSONResponse(status_code=400, content={"error": str(e), "traceback": traceback.format_exc()})
 
 
 # ==========================================================
@@ -128,32 +125,25 @@ async def match_resume(
 
 @app.post("/rewrite")
 async def rewrite(
-
     resume: UploadFile = File(...),
-
     job_description: str = Form(...)
-
 ):
+    try:
+        save_path = os.path.join(RESUME_DIR, resume.filename)
+        with open(save_path, "wb") as buffer:
+            shutil.copyfileobj(resume.file, buffer)
 
-    save_path = os.path.join(RESUME_DIR, resume.filename)
-
-    with open(save_path, "wb") as buffer:
-        shutil.copyfileobj(
-            resume.file,
-            buffer
+        resume_text, resume_obj, job_obj, ats = analyze_resume_pipeline(
+            save_path,
+            job_description
         )
 
-    resume_text, resume_obj, job_obj, ats = analyze_resume_pipeline(
-        save_path,
-        job_description
-    )
-
-    rewritten = rewrite_resume(
-        resume_text,
-        job_description,
-        ats
-    )
-
-    return {
-        "rewritten_resume": rewritten
-    }
+        rewritten = rewrite_resume(
+            resume_text,
+            job_description,
+            ats
+        )
+        return {"rewritten_resume": rewritten}
+    except Exception as e:
+        import traceback
+        return JSONResponse(status_code=400, content={"error": str(e), "traceback": traceback.format_exc()})
