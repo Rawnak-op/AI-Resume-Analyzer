@@ -17,6 +17,8 @@ from ats.analyzer import ATSAnalyzer
 
 from services.resume_rewrite import rewrite_resume
 
+from cache import get_cached_ats, set_cached_ats
+
 RESUME_DIR = os.path.join(tempfile.gettempdir(), "resumes")
 os.makedirs(RESUME_DIR, exist_ok=True)
 
@@ -45,45 +47,49 @@ def analyze_resume_pipeline(
 ):
     """
     Runs the complete ATS pipeline.
+
+    Cache flow (Layer 3 — Full ATS result):
+      1. Extract raw PDF text.
+      2. Check Redis for a cached ATS result keyed on (resume_text, jd_text).
+      3. On cache miss, run all sub-pipelines (each of which has its own
+         inner cache layers for embeddings and LLM extraction).
+      4. Store the final ATS result in Redis before returning.
     """
 
-    # Extract PDF text
-    resume_text = extract_text_from_pdf(
-        resume_path
-    )
+    # Extract PDF text (always needed to compute the cache key)
+    resume_text = extract_text_from_pdf(resume_path)
 
-    # Parse Resume
-    resume = parse_resume(
-        resume_text
-    )
+    # --- Layer 3: Cache HIT — skip everything ---
+    cached_ats = get_cached_ats(resume_text, job_description)
+    if cached_ats is not None:
+        from models.ats_model import ATSAnalysis
+        return (
+            resume_text,
+            None,   # resume obj not needed by caller
+            None,   # job obj not needed by caller
+            ATSAnalysis(**cached_ats)
+        )
 
-    # Parse Job Description
-    job = analyze_job(
-        job_description
-    )
+    # --- Cache MISS: run the full pipeline ---
 
-    # Embeddings
-    resume_embedding = get_embedding(
-        resume_text
-    )
+    # Parse Resume (Layer 2 cache inside parse_resume)
+    resume = parse_resume(resume_text)
 
-    job_embedding = get_embedding(
-        job_description
-    )
+    # Parse Job Description (Layer 2 cache inside analyze_job)
+    job = analyze_job(job_description)
 
-    similarity = calculate_similarity(
-        resume_embedding,
-        job_embedding
-    )
+    # Embeddings (Layer 1 cache inside get_embedding)
+    resume_embedding = get_embedding(resume_text)
+    job_embedding = get_embedding(job_description)
 
-    # ATS
-    analyzer = ATSAnalyzer(
-        resume,
-        job,
-        similarity
-    )
+    similarity = calculate_similarity(resume_embedding, job_embedding)
 
+    # ATS scoring (deterministic — fast, no cache needed at this level)
+    analyzer = ATSAnalyzer(resume, job, similarity)
     ats = analyzer.analyze()
+
+    # --- Store full ATS result in Redis ---
+    set_cached_ats(resume_text, job_description, ats)
 
     return (
         resume_text,
@@ -132,14 +138,14 @@ async def rewrite(
     try:
         import json
         from models.ats_model import ATSAnalysis
-        
+
         save_path = os.path.join(RESUME_DIR, resume.filename)
         with open(save_path, "wb") as buffer:
             shutil.copyfileobj(resume.file, buffer)
 
         # Extract text directly, skipping the heavy AI analysis pipeline!
         resume_text = extract_text_from_pdf(save_path)
-        
+
         ats = ATSAnalysis(**json.loads(ats_json))
 
         rewritten = rewrite_resume(

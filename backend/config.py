@@ -17,6 +17,16 @@ load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # ===========================
+# Redis
+# ===========================
+
+# Full Redis connection URL.
+# Local:  redis://localhost:6379
+# Render: set this in the Render environment variables dashboard.
+# Upstash: rediss://:<password>@<host>:<port>
+REDIS_URL = os.getenv("REDIS_URL")
+
+# ===========================
 # Embedding Model
 # ===========================
 

@@ -1,29 +1,44 @@
 @import "tailwindcss";
 
-html{
-
-    scroll-behavior:smooth;
-
+html {
+    scroll-behavior: smooth;
 }
 
-body{
-
-    margin:0;
-
-    background:#020617;
-
-    color:white;
-
-    font-family:Inter,sans-serif;
-
+body {
+    margin: 0;
+    background: #020617;
+    color: white;
+    font-family: Inter, sans-serif;
 }
 
-*{
-
-    box-sizing:border-box;
-
+* {
+    box-sizing: border-box;
 }
 
+/* Floating orb animations */
+@keyframes float1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(40px, -30px) scale(1.1); }
+}
 
+@keyframes float2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(-30px, 40px) scale(0.9); }
+}
 
+@keyframes float3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(20px, 20px) scale(1.05); }
+}
 
+.orb-1 { animation: float1 8s ease-in-out infinite; }
+.orb-2 { animation: float2 10s ease-in-out infinite; }
+.orb-3 { animation: float3 12s ease-in-out infinite; }
+
+/* Skeleton pulse */
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 0.8; }
+}
+
+.skeleton-pulse { animation: skeleton-pulse 1.5s ease-in-out infinite; }
